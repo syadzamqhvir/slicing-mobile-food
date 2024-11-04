@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:burger/screens/checkout.dart';
+
 
 // Fungsi utama yang menjalankan aplikasi
 void main() {
@@ -48,7 +50,7 @@ class _CartPageState extends State<CartPage> {
   // Fungsi untuk mengurangi jumlah item di keranjang
   void _decreaseQuantity(int index) {
     setState(() {
-      if (_cartItems[index].quantity > 1) { // Pastikan jumlah tidak kurang dari 1
+      if (_cartItems[index].quantity > 1) { 
         _cartItems[index].quantity--; // Mengurangi jumlah item
       }
     });
@@ -64,20 +66,20 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Warna latar belakang
+      backgroundColor: Colors.white, 
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // AppBar transparan
-        elevation: 0, // Tanpa bayangan
+        backgroundColor: Colors.transparent, 
+        elevation: 0, 
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.red), // Tombol kembali
-          onPressed: () => Navigator.pop(context), // Kembali ke halaman sebelumnya
+          icon: Icon(Icons.arrow_back, color: Colors.red), 
+          onPressed: () => Navigator.pop(context), 
         ),
-        title: Text("Cart", style: TextStyle(color: Colors.black)), // Judul halaman
+        title: Text("Cart", style: TextStyle(color: Colors.black)), 
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.account_circle, color: Colors.black), // Tombol akun
-            onPressed: () {}, // Fungsi saat ditekan (kosong)
+            icon: Icon(Icons.account_circle, color: Colors.black), 
+            onPressed: () {}, 
           ),
         ],
       ),
@@ -93,10 +95,10 @@ class _CartPageState extends State<CartPage> {
                 itemBuilder: (context, index) {
                   final item = _cartItems[index]; // Mendapatkan item dari daftar
                   return CartItem(
-                    imagePath: item.imagePath, // Gambar item
-                    title: item.title, // Judul item
-                    price: "Rp ${item.price},00", // Harga item
-                    quantity: item.quantity, // Jumlah item
+                    imagePath: item.imagePath, 
+                    title: item.title, 
+                    price: "Rp ${item.price},00", 
+                    quantity: item.quantity, 
                     onAdd: () => _increaseQuantity(index), // Fungsi tambah
                     onRemove: () => _decreaseQuantity(index), // Fungsi kurang
                     onDelete: () => _removeItem(index), // Fungsi hapus
@@ -107,10 +109,10 @@ class _CartPageState extends State<CartPage> {
             Divider(), // Pembatas
             // Bagian ringkasan
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.0), // Padding vertikal
+              padding: EdgeInsets.symmetric(vertical: 8.0), 
               child: Text(
                 "Ringkasan Belanja",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), // Judul ringkasan
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16), 
               ),
             ),
             SummaryRow(label: "PPN 11%", value: "Rp ${totalAmount * 0.11},00"), // Menampilkan PPN
@@ -124,22 +126,40 @@ class _CartPageState extends State<CartPage> {
             SizedBox(height: 16), // Jarak vertikal
             // Tombol checkout
             SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {}, 
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, 
-                  padding: EdgeInsets.symmetric(vertical: 16), // Padding tombol
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12), // Sudut bundar tombol
-                  ),
-                ),
-                child: Text(
-                  "Checkout",
-                  style: TextStyle(color: Colors.white, fontSize: 16), // Teks tombol
-                ),
-              ),
-            ),
+  width: double.infinity, // Lebar tombol akan memenuhi seluruh lebar parent
+  child: ElevatedButton(
+    onPressed: () {
+      // Aksi ketika tombol ditekan: Navigasi ke layar CheckoutScreen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CheckoutScreen(),
+          settings: RouteSettings(
+            arguments: _cartItems.map((item) => { // Mengirimkan argumen ke CheckoutScreen
+              'title': item.title, 
+              'price': item.price, 
+              'imagePath': item.imagePath, 
+              'quantity': item.quantity, 
+            }).toList(), // Mengubah data menjadi List<Map<String, dynamic>>
+          ),
+        ),
+      );
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.blue, // Warna latar belakang tombol
+      padding: EdgeInsets.symmetric(vertical: 16), // Padding vertikal tombol
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12), // Membuat tombol dengan tepi melingkar
+      ),
+    ),
+    child: Text(
+      "Checkout", // Teks yang ditampilkan pada tombol
+      style: TextStyle(color: Colors.white, fontSize: 16), // Warna dan ukuran teks
+    ),
+  ),
+),
+
+
           ],
         ),
       ),

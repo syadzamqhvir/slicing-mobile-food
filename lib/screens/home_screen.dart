@@ -1,150 +1,150 @@
 import 'package:flutter/material.dart';
 
-// HomePage adalah StatefulWidget yang merepresentasikan halaman utama aplikasi
 class HomePage extends StatefulWidget {
-  const HomePage({super.key}); // Constructor
+  const HomePage({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState(); // Menghubungkan dengan state
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  String selectedCategory = "All"; // Menyimpan kategori yang dipilih
+  String selectedCategory = "All";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Warna latar belakang putih
+      backgroundColor: Colors.white, 
       appBar: AppBar(
-        backgroundColor: Colors.transparent, // AppBar transparan
-        elevation: 0, // Tidak ada bayangan
+        backgroundColor: Colors.transparent, 
+        elevation: 0, 
         leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.black), // Icon menu
-          onPressed: () {}, // Fungsi saat ditekan (kosong)
+          icon: const Icon(Icons.menu, color: Colors.black), 
+          onPressed: () {}, 
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.account_circle, color: Colors.black), // Icon akun
-            onPressed: () {}, // Fungsi saat ditekan (kosong)
+            icon: const Icon(Icons.account_circle, color: Colors.black), 
+            onPressed: () {}, 
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Menyusun kolom dari kiri
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0), // Padding horizontal
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ruang antara kategori
-                children: [
-                  // Icon untuk kategori "All"
-                  CategoryIcon(
-                    iconPath: "assets/burger.jpeg", // Gambar kategori
-                    label: "All", // Label kategori
-                    isSelected: selectedCategory == "All", // Menentukan kategori yang dipilih
-                    onTap: () { // Fungsi saat kategori ditekan
-                      setState(() {
-                        selectedCategory = "All"; // Mengubah kategori yang dipilih
-                      });
-                    },
-                  ),
-                  // Icon untuk kategori "Makanan"
-                  CategoryIcon(
-                    iconPath: "assets/burger.jpeg",
-                    label: "Makanan",
-                    isSelected: selectedCategory == "Makanan",
-                    onTap: () {
-                      setState(() {
-                        selectedCategory = "Makanan"; // Mengubah kategori yang dipilih
-                      });
-                    },
-                  ),
-                  // Icon untuk kategori "Minuman"
-                  CategoryIcon(
-                    iconPath: "assets/teh_botol.jpeg",
-                    label: "Minuman",
-                    isSelected: selectedCategory == "Minuman",
-                    onTap: () {
-                      setState(() {
-                        selectedCategory = "Minuman"; // Mengubah kategori yang dipilih
-                      });
-                    },
-                  ),
-                ],
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start, 
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+              children: [
+                // Kategori "All" (semua item)
+                CategoryIcon(
+                  iconPath: "assets/burger.jpeg", // Path ke gambar ikon
+                  label: "All",
+                  isSelected: selectedCategory == "All", // Cek apakah kategori ini yang dipilih
+                  onTap: () {
+                    setState(() {
+                      selectedCategory = "All"; // Mengubah kategori yang dipilih
+                    });
+                  },
+                ),
+                // Kategori "Makanan"
+                CategoryIcon(
+                  iconPath: "assets/burger.jpeg",
+                  label: "Makanan",
+                  isSelected: selectedCategory == "Makanan",
+                  onTap: () {
+                    setState(() {
+                      selectedCategory = "Makanan";
+                    });
+                  },
+                ),
+                // Kategori "Minuman"
+                CategoryIcon(
+                  iconPath: "assets/teh_botol.jpeg",
+                  label: "Minuman",
+                  isSelected: selectedCategory == "Minuman",
+                  onTap: () {
+                    setState(() {
+                      selectedCategory = "Minuman";
+                    });
+                  },
+                ),
+              ],
             ),
-            const SizedBox(height: 16), // Jarak vertikal
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text("All Food", style: TextStyle(color: Colors.black, fontSize: 20)), // Judul untuk daftar makanan
-            ),
-            const SizedBox(height: 16), // Jarak vertikal
-            Padding(
+          ),
+          const SizedBox(height: 16), // Jarak vertikal
+          // Teks bagian judul
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.0),
+            child: Text("All Food", style: TextStyle(color: Colors.black, fontSize: 20)),
+          ),
+          const SizedBox(height: 16), // Jarak vertikal
+          Expanded(
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              // Membuat grid untuk item makanan
               child: GridView.builder(
-                shrinkWrap: true, // Menyesuaikan ukuran GridView
-                physics: const NeverScrollableScrollPhysics(), // Nonaktifkan scroll
-                itemCount: 4, // Jumlah item yang ditampilkan
+                itemCount: 6, // Jumlah item dalam grid
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Jumlah kolom
+                  crossAxisCount: 2, // Jumlah kolom grid
                   crossAxisSpacing: 16, // Jarak antar kolom
                   mainAxisSpacing: 16, // Jarak antar baris
-                  childAspectRatio: 0.75, // Rasio aspek item
+                  childAspectRatio: 0.75, // Rasio aspek untuk item
                 ),
                 itemBuilder: (context, index) {
                   return FoodItemCard(
-                    imagePath: index % 3 == 0 ? "assets/burger.jpeg" : "assets/teh_botol.jpeg", // Gambar berdasarkan index
-                    title: index % 3 == 0 ? "Burger King Medium" : "Teh Botol", // Judul berdasarkan index
-                    price: index % 3 == 0 ? "Rp. 50.000,00" : "Rp. 4.000,00", // Harga berdasarkan index
+                    imagePath: index % 2 == 0 ? "assets/burger.jpeg" : "assets/teh_botol.jpeg",
+                    title: index % 2 == 0 ? "Burger King Medium" : "Teh Botol",
+                    price: index % 2 == 0 ? "Rp. 50.000,00" : "Rp. 4.000,00",
                   );
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white, // Warna latar belakang
-        selectedItemColor: Colors.pink, // Warna item terpilih
-        unselectedItemColor: Colors.grey, // Warna item tidak terpilih
-        currentIndex: 0, // Indeks item saat ini
-        onTap: (index) { // Fungsi saat item ditekan
-          if (index == 1) {
-            Navigator.pushNamed(context, '/cart'); // Navigasi ke halaman keranjang
+        backgroundColor: Colors.white, // Warna latar bawah putih
+        selectedItemColor: Colors.pink, // Warna ikon terpilih
+        unselectedItemColor: Colors.grey, // Warna ikon tidak terpilih
+        currentIndex: 0, // Indeks bagian yang aktif
+        onTap: (index) {
+          if (index == 1) { // Jika ikon cart ditekan
+            Navigator.pushNamed(context, '/cart'); // Navigasi ke layar '/cart'
           }
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''), // Item home
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''), // Ikon beranda
           BottomNavigationBarItem(
-            icon: Stack( // Item keranjang dengan badge
+            icon: Stack(
               children: [
-                Icon(Icons.shopping_cart),
+                Icon(Icons.shopping_cart), // Ikon keranjang
                 Positioned(
-                  right: 0,
+                  right: -1,
+                  top: -1,
                   child: CircleAvatar(
-                    backgroundColor: Colors.pink, // Warna latar belakang badge
-                    radius: 8, // Radius badge
-                    child: Text('2', style: TextStyle(color: Colors.white, fontSize: 10)), // Jumlah item di keranjang
+                    backgroundColor: Colors.pink,
+                    radius: 8,
+                    child: Text('2', style: TextStyle(color: Colors.white, fontSize: 9)), // Jumlah item di keranjang
                   ),
                 ),
               ],
             ),
             label: '',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: ''), // Item struk
+          BottomNavigationBarItem(icon: Icon(Icons.receipt_long), label: ''), // Ikon riwayat
         ],
       ),
     );
   }
 }
 
-// Kelas CategoryIcon untuk menampilkan kategori
+// Widget untuk menampilkan ikon kategori
 class CategoryIcon extends StatelessWidget {
-  final String iconPath; // Path gambar kategori
+  final String iconPath; // Path gambar
   final String label; // Label kategori
-  final bool isSelected; // Status kategori terpilih
-  final VoidCallback onTap; // Fungsi saat kategori ditekan
+  final bool isSelected; // Status apakah kategori dipilih
+  final VoidCallback onTap; // Fungsi saat ikon ditekan
 
   const CategoryIcon({
     super.key,
@@ -157,41 +157,34 @@ class CategoryIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // Fungsi saat diklik
+      onTap: onTap, // Memanggil fungsi saat ditekan
       child: Column(
         children: [
           Container(
             decoration: BoxDecoration(
-              color: isSelected ? Colors.blue.shade100 : Colors.white, // Warna latar belakang
-              borderRadius: BorderRadius.circular(16), // Membuat sudut bundar
+              color: isSelected ? Colors.blue.shade100 : Colors.white, // Warna background
+              borderRadius: BorderRadius.circular(16), // Membuat tepi melengkung
               border: isSelected ? Border.all(color: Colors.blue, width: 2) : null, // Border jika terpilih
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2), // Bayangan untuk efek kedalaman
-                ),
-              ],
             ),
-            padding: const EdgeInsets.all(8), // Padding di dalam kontainer
+            padding: const EdgeInsets.all(8), // Padding ikon
             child: Image.asset(
-              iconPath, // Gambar kategori
-              width: 40, // Lebar gambar
-              height: 40, // Tinggi gambar
+              iconPath,
+              width: 40,
+              height: 40,
             ),
           ),
-          const SizedBox(height: 4), // Jarak vertikal
-          Text(label, style: TextStyle(color: isSelected ? Colors.blue : Colors.black)), // Teks label kategori
+          const SizedBox(height: 4), // Jarak antar ikon dan label
+          Text(label, style: TextStyle(color: isSelected ? Colors.blue : Colors.black)), // Teks label
         ],
       ),
     );
   }
 }
 
-// Kelas FoodItemCard untuk menampilkan item makanan
+// Widget untuk menampilkan kartu item makanan
 class FoodItemCard extends StatelessWidget {
   final String imagePath; // Path gambar makanan
-  final String title; // Judul makanan
+  final String title; // Nama makanan
   final String price; // Harga makanan
 
   const FoodItemCard({super.key, required this.imagePath, required this.title, required this.price});
@@ -200,41 +193,34 @@ class FoodItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white, // Warna latar belakang
-        borderRadius: BorderRadius.circular(16), // Sudut bundar
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3), // Bayangan lembut
-            blurRadius: 4,
-            offset: const Offset(0, 2), // Offset bayangan
-          ),
-        ],
+        color: Colors.white, // Warna background putih
+        borderRadius: BorderRadius.circular(16), // Tepi melengkung
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start, // Menyusun konten dari kiri
+        crossAxisAlignment: CrossAxisAlignment.start, // Kolom mulai dari kiri
         children: [
           Expanded(
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)), // Sudut bundar atas
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(16)), // Melengkungkan bagian atas gambar
               child: Image.asset(
-                imagePath, // Gambar makanan
-                fit: BoxFit.cover, // Memenuhi ruang yang ada
-                width: double.infinity, // Lebar penuh
+                imagePath,
+                fit: BoxFit.cover, // Gambar menyesuaikan ruang yang ada
+                width: double.infinity,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0), // Padding di dalam kontainer
+            padding: const EdgeInsets.all(8.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start, // Menyusun teks dari kiri
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)), // Judul makanan tebal
-                Text(price), // Menampilkan harga
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)), // Nama makanan dengan teks tebal
+                Text(price), // Menampilkan harga makanan
                 Align(
-                  alignment: Alignment.bottomRight, // Menempatkan tombol di kanan bawah
+                  alignment: Alignment.bottomRight,
                   child: IconButton(
-                    icon: const Icon(Icons.add_circle, color: Colors.green), // Tombol tambah
-                    onPressed: () {}, // Fungsi saat ditekan (kosong)
+                    icon: const Icon(Icons.add_circle, color: Colors.green), // Ikon tambah
+                    onPressed: () {}, // Fungsi saat ikon tambah ditekan (belum ditentukan)
                   ),
                 ),
               ],
